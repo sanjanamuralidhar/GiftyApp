@@ -1,44 +1,47 @@
 import UIKit
 import Flutter
-import GoogleMaps
 import Firebase
+import GoogleMaps
 
 @UIApplicationMain
-@objc class AppDelegate: FlutterAppDelegate {
-    override func application(
-        _ application: UIApplication,
-        didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
-    ) -> Bool {
-        // TODO: SETUP4 - update your own Google API Key
-        GMSServices.provideAPIKey("AIzaSyDnBpxFOfeG6P06nK97hMg01kEgX48JhLE")
-        GeneratedPluginRegistrant.register(with: self)
-        return super.application(application, didFinishLaunchingWithOptions: launchOptions)
+@objc class AppDelegate: FlutterAppDelegate { //, MessagingDelegate
+  override func application(
+    _ application: UIApplication,
+    didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
+  ) -> Bool {
+    GMSServices.provideAPIKey("AIzaSyBPVoSISKwgTjtZdN8Ks4DcP6mW8sp4ZEo")
+    GeneratedPluginRegistrant.register(with: self)
+      
+    if(FirebaseApp.app() == nil){
+        FirebaseApp.configure()
     }
     
-    override func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
-        // Pass device token to auth
-        Auth.auth().setAPNSToken(deviceToken, type: .prod)
-        
-        // Further handling of the device token if needed by the app
-        // ...
+    if #available(iOS 10.0, *) {
+      // For iOS 10 display notification (sent via APNS)
+      UNUserNotificationCenter.current().delegate = self
+
+      let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound]
+      UNUserNotificationCenter.current().requestAuthorization(
+        options: authOptions,
+        completionHandler: {_, _ in })
+    } else {
+      let settings: UIUserNotificationSettings =
+      UIUserNotificationSettings(types: [.alert, .badge, .sound], categories: nil)
+      application.registerUserNotificationSettings(settings)
+    }
+
+    
+    application.registerForRemoteNotifications()
+    
+    Messaging.messaging().token { token, error in
+      if let error = error {
+        print("Error fetching FCM registration token: \(error)")
+      } else if let token = token {
+        print("FCM registration token: \(token)")
+//        self.fcmRegTokenMessage.text  = "Remote FCM registration token: \(token)"
+      }
     }
     
-    override func application(_ application: UIApplication,
-                              didReceiveRemoteNotification notification: [AnyHashable : Any],
-                              fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
-        if Auth.auth().canHandleNotification(notification) {
-            completionHandler(.noData)
-            return
-        }
-        // This notification is not auth related, developer should handle it.
-    }
-    
-    override func application(_ application: UIApplication, open url: URL,
-                              options: [UIApplication.OpenURLOptionsKey : Any]) -> Bool {
-        if Auth.auth().canHandle(url) {
-            return true
-        }
-        return false;
-        // URL not auth related, developer should handle it.
-    }
+    return super.application(application, didFinishLaunchingWithOptions: launchOptions)
+  }
 }
