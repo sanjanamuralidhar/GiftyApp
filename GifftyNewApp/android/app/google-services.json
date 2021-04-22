@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "302171992242",
+    "firebase_url": "https://giftty-93cae.firebaseio.com",
+    "project_id": "giftty-93cae",
+    "storage_bucket": "giftty-93cae.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:302171992242:android:eaefd932ae2e03fd7019ab",
+        "android_client_info": {
+          "package_name": "com.indigitalgroup.giftty"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "302171992242-gcfqoilbcneg9tlqhdb2ub3rqgkn625q.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.indigitalgroup.giftty",
+            "certificate_hash": "96587daa62e7209a359ef8875dc4148236985b85"
+          }
+        },
+        {
+          "client_id": "302171992242-nfa7vm6uu3qggjqbvq1fdjtjgpp8no6s.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB9ott_AiMn805FVG3aX1QPFWQCYlrsHk4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "302171992242-nfa7vm6uu3qggjqbvq1fdjtjgpp8no6s.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
